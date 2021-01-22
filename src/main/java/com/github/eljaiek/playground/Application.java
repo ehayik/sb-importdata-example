@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.toList;
+
 @SpringBootApplication
 public class Application {
 
@@ -28,8 +30,8 @@ public class Application {
 
     @Bean
     CommandLineRunner registerZonesDataRunner(GeographicZoneRepository repository) {
-        return args -> Stream.of("AFRICA", "EUROPE")
+        return args -> repository.saveAll(Stream.of("AFRICA", "EUROPE")
                 .map(GeographicZone::new)
-                .forEach(repository::save);
+                .collect(toList()));
     }
 }
